@@ -9,14 +9,29 @@ import { Props } from "next/script";
 import Image from "next/image";
 import { useMovieStore } from '../stores/useMovieStore';
 import { useStore } from "zustand";
+import { useEffect, useState } from "react";
 
-const Page: React.FC<any>= async (search) => {
-  // Catch errors if the fetch fails
-  let data = await fetch(`https://api.themoviedb.org/3/search/movie?query=${search.searchParams.search}&api_key=50353b5dca033033826c5b1de631e97e`);
-  let movies = await data.json();
+const Page: React.FC<any>= (search) => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        let response = await fetch(
+          `https://api.themoviedb.org/3/search/movie?query=${search.searchParams.search}&api_key=50353b5dca033033826c5b1de631e97e`
+        );
+        let data = await response.json();
+        setMovies(data.results);
+      } catch (error) {
+        console.error("Failed to fetch movies", error);
+      }
+    };
+    fetchMovies();
+  }, [search]);
+
 
   const handleMovieClick = (movie: any) => {
-    useMovieStore(movie);
+    console.log("Movies", movie);
   };
 
   let width = 300;
@@ -24,7 +39,7 @@ const Page: React.FC<any>= async (search) => {
   return (
   <>
   <div>
-    {movies.results.map((movie: any) => (
+    {movies.map((movie: any) => (
     <div onClick={()=> handleMovieClick(movie)}>
     <Image width={width} height={width} src={`https://image.tmdb.org/t/p/w${width}/${movie.poster_path}`} alt={movie.title} />
     <h2>{movie.title}</h2>

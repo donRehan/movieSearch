@@ -4,6 +4,9 @@ This is the starter template for the Next.js App Router Course. It contains the 
 
 For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
 
+#Pass the movie as a prop rather than a form submission 
+#See if you should remove use state in movieslist and sub with zustand
+#Make sure naming conventions are consistent
 #Why we chose the 'google' search bar design
 #filling space with + reason
 #filling space with + reason
