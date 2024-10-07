@@ -1,9 +1,7 @@
 "use client";
 
-import { Props } from "next/script";
 import Image from "next/image";
 import { useMovieStore } from '../stores/useMovieStore';
-import { useStore } from "zustand";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -35,24 +33,24 @@ const Page: React.FC<any>= (search) => {
 
   let width = 300;
 
-  //TODO: Fix the type of movies issue
   return (
   <>
   <div>
     {movies.map((movie: any) => (
-    <Link href={
-      {
-        pathname: `/title`,
-        query: { movie: JSON.stringify(movie) }
-      }
-    }>
       <div onClick={()=> handleMovieClick(movie)}>
-      <Image width={width} height={width} src={`https://image.tmdb.org/t/p/w${width}/${movie.poster_path}`} alt={movie.title} />
-      <h2>{movie.title}</h2>
-      <p>{movie.release_date}</p>
-      <p>{movie.vote_average}</p>
+        <Link href={
+          {
+            pathname: `/title`,
+            query: { movie: JSON.stringify(movie) }
+          }
+        }>
+          <Image width={width} height={width} src={`https://image.tmdb.org/t/p/w${width}/${movie.poster_path}`} alt={movie.title} />
+          <h2>{movie.title}</h2>
+          <p>{movie.release_date}</p>
+          <p>{movie.vote_average}</p>
+        </Link>
+        <button>Add to favorites</button>
       </div>
-    </Link>
     ))}
   </div>
   </>
