@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Page() {
 
   return (
-  <form className="searchbar" action="/movieslist" method="GET"> 
+  <form className="searchbar" action="/list" method="GET"> 
     <input type="text" placeholder="typesomething here" name="search"/>
     <button type="submit">Search</button>
   </form>
