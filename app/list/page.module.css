@@ -1,0 +1,135 @@
+.movieList {
+  font-family: 'Courier New', monospace;
+  background-color: #f0f0f0;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  border-bottom: 5px solid #000;
+  padding-bottom: 1rem;
+}
+
+.searchForm {
+  display: flex;
+  margin-bottom: 2rem;
+  border: 3px solid #000;
+}
+
+.searchInput {
+  flex-grow: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  border: none;
+  background-color: #fff;
+}
+
+.searchButton {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButton:hover {
+  background-color: #333;
+}
+
+.ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.movieItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #000;
+  position: relative;
+}
+
+.movieContent {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.moviePoster {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 2rem;
+  border: 3px solid #000;
+}
+
+.movieInfo {
+  flex-grow: 1;
+}
+
+.h2 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.p {
+  margin: 0.25rem 0;
+  font-weight: bold;
+}
+
+.favoriteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.5rem;
+}
+
+.favoriteButton.is-favorite svg {
+  fill: #000;
+}
+
+.favoriteButton:hover {
+  transform: scale(1.1);
+}
+
+.movieLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.movieLink:visited {
+  color: inherit;
+}
+
+@media (max-width: 600px) {
+  .movieItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .moviePoster {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .favoriteButton {
+    position: static;
+    margin-top: 1rem;
+  }
+}
