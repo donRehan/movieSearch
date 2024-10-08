@@ -10,6 +10,8 @@ import style from './page.module.css';
 const Page: React.FC<any>= (search) => {
   const {selectedMovie, setSelectedMovie} = useMovieStore();
   const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [isFavorite, setIsFavorite] = useState({}); 
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -28,10 +30,42 @@ const Page: React.FC<any>= (search) => {
     fetchMovies();
   }, [search]);
 
-  const handleFavorite = (e: React.MouseEvent, movieId: number) => {
-    e.preventDefault()
-    console.log('Toggling favorite for movie:', movieId)
-  }
+  // Function to toggle favorite status
+  const toggleFavorite = (e: React.MouseEvent, movieId: any) => {
+    e.preventDefault();
+
+    setFavorites((prevFavorites: any) => {
+      if (prevFavorites.includes(movieId)) {
+        // Remove from favorites if already present
+        return prevFavorites.filter((id: any) => id !== movieId);
+      } else {
+        // Add to favorites
+        return [...prevFavorites, movieId];
+      }
+    });
+  };
+
+  const handleFavorite = (e: React.MouseEvent, movie: any) => {
+    e.preventDefault();
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const isFavorite = favorites.some((favorite: any) => favorite.id === movie.id);   
+
+    if (isFavorite) {
+      // Remove from favorites
+      const updatedFavorites = favorites.filter((favorite: any) => favorite.id !== movie.id);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+
+    } else {
+      // Add to favorites
+      favorites.push(movie);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    setIsFavorite((prevIsFavorite) => ({
+    ...prevIsFavorite,
+    [movie.id]: favorites.some((favorite: any) => favorite.id === movie.id),
+  }));
+  };
 
 
   const handleMovieClick = (movie: any) => {
@@ -67,12 +101,23 @@ const Page: React.FC<any>= (search) => {
               <p className={style.p}>Release Date: {movie.release_date}</p>
               <p className={style.p}>Rating: {movie.vote_average.toFixed(1)}/10</p>
             </div>
-            <button 
-            className={`${style.favoriteButton} ${movie.isFavorite ? 'is-favorite' : ''}`}
-            onClick={(e) => handleFavorite(e, movie.id)}
-            >
-              <Star />
-            </button>
+          {
+            //check if movie is in favorites
+            JSON.parse(localStorage.getItem("favorites") || "[]").some((favorite: any) => favorite.id === movie.id) ? 
+              <button 
+              className={style.favoriteButtonIS}
+              onClick={(e) => handleFavorite(e, movie)}
+              >
+                <Star />
+              </button>
+              :
+              <button 
+              className={style.favoriteButton}
+              onClick={(e) => handleFavorite(e, movie)}
+              >
+                <Star />
+              </button>
+          }
           </li>
             </a>
             </Link>
