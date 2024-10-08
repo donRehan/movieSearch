@@ -5,6 +5,7 @@ This is the starter template for the Next.js App Router Course. It contains the 
 For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
 
 #TODO: Add footer to the app (Accessed by all components)
+#I created a button component thinking I will need multiple buttons in the app but I was wrong 
 #Pass the movie as a prop rather than a form submission 
 #See if you should remove use state in movieslist and sub with zustand
 #Make sure naming conventions are consistent

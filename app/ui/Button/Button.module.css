@@ -1,0 +1,27 @@
+.button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #302f2f;
+  color: #EFEFEF;
+  border: 2px solid #000;
+  cursor: pointer;
+  transition: transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+.button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #3322F5;
+  background-color: #C3FF76;
+  color: #3322F5;
+  transition: transform 0.2s;
+}
+
+.button:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+  transition: transform 0.1s;
+}
