@@ -7,15 +7,17 @@ import Link from "next/link";
 import { Star } from 'lucide-react';
 import style from './page.module.css';
 
-const Page: React.FC<any>= (search) => {
+const Page = (search: any) => {
   const {selectedMovie, setSelectedMovie} = useMovieStore();
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [isFavorite, setIsFavorite] = useState({}); 
+  const [apiError, setApiError] = useState(false); 
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        //TODO:: Remove api key from the frontend
         let response = await fetch(
           `https://api.themoviedb.org/3/search/movie?query=${search.searchParams.search}&api_key=50353b5dca033033826c5b1de631e97e`
         );
@@ -24,7 +26,7 @@ const Page: React.FC<any>= (search) => {
         let movies = data.results;
         setMovies(movies);
       } catch (error) {
-        console.error("Failed to fetch movies", error);
+        setApiError(true);
       }
     };
     fetchMovies();
@@ -123,6 +125,10 @@ const Page: React.FC<any>= (search) => {
             </Link>
         ))}
       </ul>
+    {
+      // TODO: Properly format the error message 
+      apiError && <p>Failed to fetch movies</p>
+    }
     </div>
 
   </>

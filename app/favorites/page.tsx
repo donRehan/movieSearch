@@ -8,14 +8,15 @@ import React, { useState, useEffect } from 'react';
 export default function Page()
 {
   const [favorites, setFavorites] = useState([]); 
+  const [rendered, setRendered] = useState(false); 
   let width = 100;
   let height = 150;
-  let movies = JSON.parse(localStorage.getItem("favorites") || "[]");
 
   // Fetch favorites from localStorage on component mount
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     setFavorites(storedFavorites);
+    setRendered(true);
   }, []);
 
   const handleFavorite  
@@ -36,7 +37,7 @@ export default function Page()
     <div className={style.movieList}>
       <h1 className={style.h1}>Favorites List</h1>
       <ul className={style.ul}>
-        {movies.map((movie: any) => (
+        {favorites.map((movie: any) => (
             <Link href={
               {
                 pathname: `/title`,
@@ -68,7 +69,7 @@ export default function Page()
         ))}
       </ul>
     {
-      (movies.length === 0) ?
+      (favorites.length === 0 && rendered) ?
       <p>Add movies to favorites to view your favorites</p> : null
     }
     </div>
