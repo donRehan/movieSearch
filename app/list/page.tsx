@@ -1,5 +1,6 @@
 "use client";
 
+//TODO: Dynamic routing for movie details
 import Image from "next/image";
 import { useMovieStore } from '../stores/useMovieStore';
 import { useEffect, useState } from "react";
@@ -7,19 +8,23 @@ import Link from "next/link";
 import { Star } from 'lucide-react';
 import style from './page.module.css';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const Page = (search: any) => {
   const {selectedMovie, setSelectedMovie} = useMovieStore();
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [isFavorite, setIsFavorite] = useState({}); 
+  const [loading, setLoading] = useState(true); 
   const [apiError, setApiError] = useState(false); 
+  const api_key = process.env.customKey;
 
+  //TODO::endofproject Use middleware to handle api calls
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        //TODO:: Remove api key from the frontend
-        let response = await fetch(
-          `https://api.themoviedb.org/3/search/movie?query=${search.searchParams.search}&api_key=50353b5dca033033826c5b1de631e97e`
+        let response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${search.searchParams.search}&api_key=${api_key}`
         );
         let data = await response.json();
         setSelectedMovie(data.results);
@@ -27,6 +32,8 @@ const Page = (search: any) => {
         setMovies(movies);
       } catch (error) {
         setApiError(true);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMovies();
@@ -77,9 +84,19 @@ const Page = (search: any) => {
   let width = 100;
   let height = 150;
 
-  //TODO: Display a message if no movies are found.
-  //TODO: Display a message if input was given from the user
-  //TODO: Display a message if end point had an issue
+  if(loading) 
+    return (
+        <p className={style.progressText}>Loading...</p>
+    )
+
+  if (apiError) 
+    return (
+      <div className={style.movieList}>
+        <h1 className={style.h1}>Error</h1>
+        <p>Error with the end point, please contact customer support</p>
+      </div>
+    )
+
   return (
   <>
     <div className={style.movieList}>
@@ -126,11 +143,9 @@ const Page = (search: any) => {
         ))}
       </ul>
     {
-      // TODO: Properly format the error message 
-      apiError && <p>Failed to fetch movies</p>
+      (movies.length === 0) && <p>No movies found with this name !</p>
     }
     </div>
-
   </>
   );
 }
