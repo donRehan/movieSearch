@@ -14,17 +14,14 @@ const api_key = process.env.customKey;
 //Fetch details
 const fetchMovieDetails = async () => {
   try {
-    //TODO: Move into serpate file if possible *function
+    //TODO::endofproject Move into serpate file if possible *function
     const response = await fetch(`https://api.themoviedb.org/3/movie/${title}?api_key=${api_key}`);
     const data = await response.json();
     setMovie(data);
   }
-  //TODO: Add error message on error state
   catch (error) {
     setError(true);
-    console.log(error);
   }
-  //TODO: Add loading effect
   finally {
     setLoading(false);
   }
@@ -34,13 +31,21 @@ useEffect(() => {
   fetchMovieDetails();
 }, [title])
 
-//Handle error message properly && Null
-if(movie === null)
-  return <p>Didn't read</p>
-
-
   let width = 100;
   let height = 150;
+
+if (loading)
+  return (
+    <p className={styles.progressText}>Loading...</p>
+  )
+
+if (pageError)
+  return (
+    <div className={styles.movieList}>
+      <h1 className={styles.h1}>Error</h1>
+      <p>Error with the end point, please contact customer support</p>
+    </div>
+  )
 
 return (
     <div className={styles.main}>
