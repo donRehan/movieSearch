@@ -9,6 +9,7 @@ export default function Page()
 {
   const [favorites, setFavorites] = useState([]); 
   const [rendered, setRendered] = useState(false); 
+  const [loading, setLoading] = useState(true); 
   let width = 100;
   let height = 150;
 
@@ -17,6 +18,7 @@ export default function Page()
     const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     setFavorites(storedFavorites);
     setRendered(true);
+    setLoading(false);
   }, []);
 
   const handleFavorite  
@@ -31,6 +33,12 @@ export default function Page()
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     setFavorites(updatedFavorites);
   };
+
+
+  if(loading) 
+    return (
+        <p className={style.progressText}>Loading...</p>
+        )
 
   return (
     <>

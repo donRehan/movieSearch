@@ -8,19 +8,21 @@ import Link from "next/link";
 import { Star } from 'lucide-react';
 import style from './page.module.css';
 
+//TODO: Could delete this
 import dotenv from 'dotenv';
 dotenv.config();
 
 const Page = (search: any) => {
-  const {selectedMovie, setSelectedMovie} = useMovieStore();
+  const { selectedMovie, setSelectedMovie } = useMovieStore();
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [isFavorite, setIsFavorite] = useState({}); 
-  const [loading, setLoading] = useState(true); 
-  const [apiError, setApiError] = useState(false); 
+  const [isFavorite, setIsFavorite] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState(false);
   const api_key = process.env.customKey;
 
   //TODO::endofproject Use middleware to handle api calls
+  //TODO::Use clean style in this useEffect
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -57,7 +59,7 @@ const Page = (search: any) => {
   const handleFavorite = (e: React.MouseEvent, movie: any) => {
     e.preventDefault();
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const isFavorite = favorites.some((favorite: any) => favorite.id === movie.id);   
+    const isFavorite = favorites.some((favorite: any) => favorite.id === movie.id);
 
     if (isFavorite) {
       // Remove from favorites
@@ -71,9 +73,9 @@ const Page = (search: any) => {
     }
 
     setIsFavorite((prevIsFavorite) => ({
-    ...prevIsFavorite,
-    [movie.id]: favorites.some((favorite: any) => favorite.id === movie.id),
-  }));
+      ...prevIsFavorite,
+      [movie.id]: favorites.some((favorite: any) => favorite.id === movie.id),
+    }));
   };
 
 
@@ -84,12 +86,12 @@ const Page = (search: any) => {
   let width = 100;
   let height = 150;
 
-  if(loading) 
+  if (loading)
     return (
-        <p className={style.progressText}>Loading...</p>
+      <p className={style.progressText}>Loading...</p>
     )
 
-  if (apiError) 
+  if (apiError)
     return (
       <div className={style.movieList}>
         <h1 className={style.h1}>Error</h1>
@@ -98,55 +100,55 @@ const Page = (search: any) => {
     )
 
   return (
-  <>
-    <div className={style.movieList}>
-      <h1 className={style.h1}>Movie List</h1>
-      <ul className={style.ul}>
-        {movies.map((movie: any) => (
+    <>
+      <div className={style.movieList}>
+        <h1 className={style.h1}>Movie List</h1>
+        <ul className={style.ul}>
+          {movies.map((movie: any) => (
             <Link href={
               {
                 pathname: `/title`,
                 query: { movie: JSON.stringify(movie) }
               }
             }
-            passHref
-            legacyBehavior
+              passHref
+              legacyBehavior
             >
-            <a className={style.movieLink}>
-          <li key={movie.id} className={style.movieItem}>
-            <Image className={style.moviePoster} width={width} height={height} src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt={`${movie.title} poster`} />
-            <div className={style.movieInfo}>
-              <h2 className={style.h2}>{movie.title}</h2>
-              <p className={style.p}>Release Date: {movie.release_date}</p>
-              <p className={style.p}>Rating: {movie.vote_average.toFixed(1)}/10</p>
-            </div>
-          {
-            //check if movie is in favorites
-            JSON.parse(localStorage.getItem("favorites") || "[]").some((favorite: any) => favorite.id === movie.id) ? 
-              <button 
-              className={style.favoriteButtonIS}
-              onClick={(e) => handleFavorite(e, movie)}
-              >
-                <Star />
-              </button>
-              :
-              <button 
-              className={style.favoriteButton}
-              onClick={(e) => handleFavorite(e, movie)}
-              >
-                <Star />
-              </button>
-          }
-          </li>
-            </a>
+              <a className={style.movieLink}>
+                <li key={movie.id} className={style.movieItem}>
+                  <Image className={style.moviePoster} width={width} height={height} src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt={`${movie.title} poster`} />
+                  <div className={style.movieInfo}>
+                    <h2 className={style.h2}>{movie.title}</h2>
+                    <p className={style.p}>Release Date: {movie.release_date}</p>
+                    <p className={style.p}>Rating: {movie.vote_average.toFixed(1)}/10</p>
+                  </div>
+                  {
+                    //check if movie is in favorites
+                    JSON.parse(localStorage.getItem("favorites") || "[]").some((favorite: any) => favorite.id === movie.id) ?
+                      <button
+                        className={style.favoriteButtonIS}
+                        onClick={(e) => handleFavorite(e, movie)}
+                      >
+                        <Star />
+                      </button>
+                      :
+                      <button
+                        className={style.favoriteButton}
+                        onClick={(e) => handleFavorite(e, movie)}
+                      >
+                        <Star />
+                      </button>
+                  }
+                </li>
+              </a>
             </Link>
-        ))}
-      </ul>
-    {
-      (movies.length === 0) && <p>No movies found with this name !</p>
-    }
-    </div>
-  </>
+          ))}
+        </ul>
+        {
+          (movies.length === 0) && <p>No movies found with this name !</p>
+        }
+      </div>
+    </>
   );
 }
 

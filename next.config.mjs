@@ -18,6 +18,4 @@ const nextConfig = {
   }
 };
 
-console.log("API Key in config:", nextConfig.env.customKey); // <-- Check if this is loaded
-
 export default nextConfig;
