@@ -3,6 +3,11 @@
 ## Description
 A movie listing app where users can search for movies, view details, and add favorites.
 
+## Images 
+![Home page](Main.png)
+![Movies list page](List.png)
+![Movies Details page](Details.png)
+
 ## Installation
 1. Clone the repository:
 

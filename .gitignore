@@ -5,7 +5,9 @@ README.bk
 /node_modules
 /.pnp
 .pnp.js
-TASKS
+TASKS.org
+.env
+TODO
 
 # testing
 /coverage
